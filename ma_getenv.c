@@ -1,8 +1,8 @@
 #include "shell.h"
 
 /**
- * environ_declear - Remove an environment variable
- * @info: Structure containing potential arguments. Used to maintain
+ * environ_declear - Declear an environment variable
+ * @info: Structure have  potential arguments. Used to maintain
  *        constant function prototype.
  *  Return: 1 on delete, 0 otherwise
  * @var: the string env var property
@@ -33,7 +33,7 @@ int environ_declear(info_t *info, char *var)
 }
 
 /**
- * environ_getter - returns the string array copy of our environ
+ * environ_getter - get ot return the string array clone or copy of the environ
  * @info: Structure containing potential arguments. Used to maintain
  *          constant function prototype.
  * Return: Always 0
@@ -50,8 +50,7 @@ char **environ_getter(info_t *info)
 }
 
 /**
- * environ_setter - Initialize a new environment variable,
- *             or modify an existing one
+ * environ_setter - Intigrate  a new environment variable,
  * @info: Structure containing potential arguments. Used to maintain
  *        constant function prototype.
  * @var: the string env var property

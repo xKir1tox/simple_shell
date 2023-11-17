@@ -1,7 +1,7 @@
 #include "shell.h"
 
 /**
- * _is_delmed - checks if character is a delimeter
+ * _is_delmed - looking for character if a delimeter
  * @c: the char to check
  * @delim: the delimeter string
  * Return: 1 if true, 0 if false
@@ -14,7 +14,7 @@ int _is_delmed(char c, char *delim)
 	return (0);
 }
 /**
- * _interact_mode - returns true if shell is _interact_mode mode
+ * _interact_mode - is true if shell is in _interact_modee
  * @info: struct address
  *
  * Return: 1 if _interact_mode mode, 0 otherwise
@@ -25,7 +25,7 @@ int _interact_mode(info_t *info)
 }
 
 /**
- * _is_alphed - checks for alphabetic character
+ * _is_alphed - looking for alphabetic character
  * @c: The character to input
  * Return: 1 if c is alphabetic, 0 otherwise
  */
@@ -39,7 +39,7 @@ int _is_alphed(int c)
 }
 
 /**
- * _slicer - converts a string to an integer
+ * _slicer - change a string to an integer
  * @s: the string to be converted
  * Return: 0 if no numbers in string, converted number otherwise
  */

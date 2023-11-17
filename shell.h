@@ -148,7 +148,7 @@ char *_clones_str(char *, char *, int);
 char *_contas_str(char *, char *, int);
 char *_chars_str(char *, char);
 
-/* my prototype for_tokenizer.c */
+/* my prototype for_tokener.c */
 char **side_str(char *, char *);
 char **side_str2(char *, char);
 
