@@ -1,18 +1,6 @@
 #include "shell.h"
 
 /**
- * info_remover - initializes info_t struct
- * @info: struct address
- */
-void info_remover(info_t *info)
-{
-	info->arg = NULL;
-	info->argv = NULL;
-	info->path = NULL;
-	info->argc = 0;
-}
-
-/**
  * info_setter - initializes info_t struct
  * @info: struct address
  * @av: argument vector
@@ -41,6 +29,17 @@ void info_setter(info_t *info, char **av)
 		rep_my_alias(info);
 		rep_my_vars(info);
 	}
+}
+/**
+ * info_remover - initializes info_t struct
+ * @info: struct address
+ */
+void info_remover(info_t *info)
+{
+	info->arg = NULL;
+	info->argv = NULL;
+	info->path = NULL;
+	info->argc = 0;
 }
 
 /**

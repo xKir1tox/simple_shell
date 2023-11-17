@@ -1,6 +1,40 @@
 #include "shell.h"
 
 /**
+ * chain_checker - checks we should continue chaining based on last status
+ * @info: the parameter struct
+ * @buf: the char buffer
+ * @p: address of current position in buf
+ * @i: starting position in buf
+ * @len: length of buf
+ *
+ * Return: Void
+ */
+void chain_checker(info_t *info, char *buf, size_t *p, size_t i, size_t len)
+{
+	size_t j = *p;
+
+	if (info->cmd_buf_type == CMD_AND)
+	{
+		if (info->status)
+		{
+			buf[i] = 0;
+			j = len;
+		}
+	}
+	if (info->cmd_buf_type == CMD_OR)
+	{
+		if (!info->status)
+		{
+			buf[i] = 0;
+			j = len;
+		}
+	}
+
+	*p = j;
+}
+
+/**
  * chain_it_is - test if current char in buffer is a chain delimeter
  * @info: the parameter struct
  * @buf: the char buffer
@@ -36,40 +70,6 @@ int chain_it_is(info_t *info, char *buf, size_t *p)
 }
 
 /**
- * chain_checker - checks we should continue chaining based on last status
- * @info: the parameter struct
- * @buf: the char buffer
- * @p: address of current position in buf
- * @i: starting position in buf
- * @len: length of buf
- *
- * Return: Void
- */
-void chain_checker(info_t *info, char *buf, size_t *p, size_t i, size_t len)
-{
-	size_t j = *p;
-
-	if (info->cmd_buf_type == CMD_AND)
-	{
-		if (info->status)
-		{
-			buf[i] = 0;
-			j = len;
-		}
-	}
-	if (info->cmd_buf_type == CMD_OR)
-	{
-		if (!info->status)
-		{
-			buf[i] = 0;
-			j = len;
-		}
-	}
-
-	*p = j;
-}
-
-/**
  * rep_my_alias - replaces an aliases in the tokenized string
  * @info: the parameter struct
  *
@@ -98,6 +98,19 @@ int rep_my_alias(info_t *info)
 	return (1);
 }
 
+/**
+ * rep_my_string - replaces string
+ * @old: address of old string
+ * @new: new string
+ *
+ * Return: 1 if replaced, 0 otherwise
+ */
+int rep_my_string(char **old, char *new)
+{
+	free(*old);
+	*old = new;
+	return (1);
+}
 /**
  * rep_my_vars - replaces vars in the tokenized string
  * @info: the parameter struct
@@ -138,18 +151,3 @@ int rep_my_vars(info_t *info)
 	}
 	return (0);
 }
-
-/**
- * rep_my_string - replaces string
- * @old: address of old string
- * @new: new string
- *
- * Return: 1 if replaced, 0 otherwise
- */
-int rep_my_string(char **old, char *new)
-{
-	free(*old);
-	*old = new;
-	return (1);
-}
-

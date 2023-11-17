@@ -1,25 +1,6 @@
 #include "shell.h"
 
 /**
- * _showstr - prints an input string
- * @str: the string to be printed
- *
- * Return: Nothing
- */
-void _showstr(char *str)
-{
-	int i = 0;
-
-	if (!str)
-		return;
-	while (str[i] != '\0')
-	{
-		_showchr(str[i]);
-		i++;
-	}
-}
-
-/**
  * _showchr - writes the character c to stderr
  * @c: The character to print
  *
@@ -40,7 +21,44 @@ int _showchr(char c)
 		buf[i++] = c;
 	return (1);
 }
+/**
+ * _showstr - prints an input string
+ * @str: the string to be printed
+ *
+ * Return: Nothing
+ */
+void _showstr(char *str)
+{
+	int i = 0;
 
+	if (!str)
+		return;
+	while (str[i] != '\0')
+	{
+		_showchr(str[i]);
+		i++;
+	}
+}
+
+/**
+ * _showsfd - prints an input string
+ * @str: the string to be printed
+ * @fd: the filedescriptor to write to
+ *
+ * Return: the number of chars put
+ */
+int _showsfd(char *str, int fd)
+{
+	int i = 0;
+
+	if (!str)
+		return (0);
+	while (*str)
+	{
+		i += _showfd(*str++, fd);
+	}
+	return (i);
+}
 /**
  * _showfd - writes the character c to given fd
  * @c: The character to print
@@ -63,24 +81,3 @@ int _showfd(char c, int fd)
 		buf[i++] = c;
 	return (1);
 }
-
-/**
- * _showsfd - prints an input string
- * @str: the string to be printed
- * @fd: the filedescriptor to write to
- *
- * Return: the number of chars put
- */
-int _showsfd(char *str, int fd)
-{
-	int i = 0;
-
-	if (!str)
-		return (0);
-	while (*str)
-	{
-		i += _showfd(*str++, fd);
-	}
-	return (i);
-}
-

@@ -1,6 +1,20 @@
 #include "shell.h"
 
 /**
+ * _str_free_array - frees a string of strings
+ * @pp: string of strings
+ */
+void _str_free_array(char **pp)
+{
+	char **a = pp;
+
+	if (!pp)
+		return;
+	while (*pp)
+		free(*pp++);
+	free(a);
+}
+/**
  * _set_memory - fills memory with a constant byte
  * @s: the pointer to the memory area
  * @b: the byte to fill *s with
@@ -14,21 +28,6 @@ char *_set_memory(char *s, char b, unsigned int n)
 	for (i = 0; i < n; i++)
 		s[i] = b;
 	return (s);
-}
-
-/**
- * _str_free_array - frees a string of strings
- * @pp: string of strings
- */
-void _str_free_array(char **pp)
-{
-	char **a = pp;
-
-	if (!pp)
-		return;
-	while (*pp)
-		free(*pp++);
-	free(a);
 }
 
 /**

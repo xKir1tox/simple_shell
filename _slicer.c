@@ -1,17 +1,6 @@
 #include "shell.h"
 
 /**
- * _interact_mode - returns true if shell is _interact_mode mode
- * @info: struct address
- *
- * Return: 1 if _interact_mode mode, 0 otherwise
- */
-int _interact_mode(info_t *info)
-{
-	return (isatty(STDIN_FILENO) && info->readfd <= 2);
-}
-
-/**
  * _is_delmed - checks if character is a delimeter
  * @c: the char to check
  * @delim: the delimeter string
@@ -23,6 +12,16 @@ int _is_delmed(char c, char *delim)
 		if (*delim++ == c)
 			return (1);
 	return (0);
+}
+/**
+ * _interact_mode - returns true if shell is _interact_mode mode
+ * @info: struct address
+ *
+ * Return: 1 if _interact_mode mode, 0 otherwise
+ */
+int _interact_mode(info_t *info)
+{
+	return (isatty(STDIN_FILENO) && info->readfd <= 2);
 }
 
 /**

@@ -1,4 +1,37 @@
 #include "shell.h"
+/**
+ * in_find_builtin - finds a builtin command
+ * @info: the parameter & return info struct
+ *
+ * Return: -1 if builtin not found,
+ * 0 if builtin executed successfully,
+ * 1 if builtin found but not successful,
+ * 2 if builtin signals exit()
+ */
+int in_find_builtin(info_t *info)
+{
+	int i, built_in_ret = -1;
+	builtin_table builtintbl[] = {
+		{"exit", the_exit},
+		{"env", _the_env},
+		{"help", the_help},
+		{"history", _the_history},
+		{"setenv", _the_env_setter},
+		{"unsetenv", _the_env_declear},
+		{"cd", the_cd},
+		{"alias", _the_alias},
+		{NULL, NULL}
+	};
+
+	for (i = 0; builtintbl[i].type; i++)
+		if (_comparstr(info->argv[0], builtintbl[i].type) == 0)
+		{
+			info->line_count++;
+			built_in_ret = builtintbl[i].func(info);
+			break;
+		}
+	return (built_in_ret);
+}
 
 /**
  * in_hsh - main shell loop
@@ -44,39 +77,44 @@ int in_hsh(info_t *info, char **av)
 }
 
 /**
- * in_find_builtin - finds a builtin command
+ * vo_fork_cmd - forks a an exec thread to run cmd
  * @info: the parameter & return info struct
  *
- * Return: -1 if builtin not found,
- * 	0 if builtin executed successfully,
- * 	1 if builtin found but not successful,
- * 	2 if builtin signals exit()
+ * Return: void
  */
-int in_find_builtin(info_t *info)
+void vo_fork_cmd(info_t *info)
 {
-	int i, built_in_ret = -1;
-	builtin_table builtintbl[] = {
-		{"exit", the_exit},
-		{"env", _the_env},
-		{"help", the_help},
-		{"history", _the_history},
-		{"setenv", _the_env_setter},
-		{"unsetenv", _the_env_declear},
-		{"cd", the_cd},
-		{"alias", _the_alias},
-		{NULL, NULL}
-	};
+	pid_t child_pid;
 
-	for (i = 0; builtintbl[i].type; i++)
-		if (_comparstr(info->argv[0], builtintbl[i].type) == 0)
+	child_pid = fork();
+	if (child_pid == -1)
+	{
+		/* TODO: PUT ERROR FUNCTION */
+		perror("Error:");
+		return;
+	}
+	if (child_pid == 0)
+	{
+		if (execve(info->path, info->argv, environ_getter(info)) == -1)
 		{
-			info->line_count++;
-			built_in_ret = builtintbl[i].func(info);
-			break;
+			info_set_free(info, 1);
+			if (errno == EACCES)
+				exit(126);
+			exit(1);
 		}
-	return (built_in_ret);
+		/* TODO: PUT ERROR FUNCTION */
+	}
+	else
+	{
+		wait(&(info->status));
+		if (WIFEXITED(info->status))
+		{
+			info->status = WEXITSTATUS(info->status);
+			if (info->status == 126)
+				_show_error(info, "Permission denied\n");
+		}
+	}
 }
-
 /**
  * vo_find_cmd - finds a command in PATH
  * @info: the parameter & return info struct
@@ -118,44 +156,3 @@ void vo_find_cmd(info_t *info)
 		}
 	}
 }
-
-/**
- * vo_fork_cmd - forks a an exec thread to run cmd
- * @info: the parameter & return info struct
- *
- * Return: void
- */
-void vo_fork_cmd(info_t *info)
-{
-	pid_t child_pid;
-
-	child_pid = fork();
-	if (child_pid == -1)
-	{
-		/* TODO: PUT ERROR FUNCTION */
-		perror("Error:");
-		return;
-	}
-	if (child_pid == 0)
-	{
-		if (execve(info->path, info->argv, environ_getter(info)) == -1)
-		{
-			info_set_free(info, 1);
-			if (errno == EACCES)
-				exit(126);
-			exit(1);
-		}
-		/* TODO: PUT ERROR FUNCTION */
-	}
-	else
-	{
-		wait(&(info->status));
-		if (WIFEXITED(info->status))
-		{
-			info->status = WEXITSTATUS(info->status);
-			if (info->status == 126)
-				_show_error(info, "Permission denied\n");
-		}
-	}
-}
-

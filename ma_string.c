@@ -1,24 +1,6 @@
 #include "shell.h"
 
 /**
- * _lenthofstr - returns the length of a string
- * @s: the string whose length to check
- *
- * Return: integer length of string
- */
-int _lenthofstr(char *s)
-{
-	int i = 0;
-
-	if (!s)
-		return (0);
-
-	while (*s++)
-		i++;
-	return (i);
-}
-
-/**
  * _comparstr - performs lexicogarphic comparison of two strangs.
  * @s1: the first strang
  * @s2: the second strang
@@ -41,18 +23,21 @@ int _comparstr(char *s1, char *s2)
 }
 
 /**
- * begain_with - checks if needle starts with haystack
- * @haystack: string to search
- * @needle: the substring to find
+ * _lenthofstr - returns the length of a string
+ * @s: the string whose length to check
  *
- * Return: address of next char of haystack or NULL
+ * Return: integer length of string
  */
-char *begain_with(const char *haystack, const char *needle)
+int _lenthofstr(char *s)
 {
-	while (*needle)
-		if (*needle++ != *haystack++)
-			return (NULL);
-	return ((char *)haystack);
+	int i = 0;
+
+	if (!s)
+		return (0);
+
+	while (*s++)
+		i++;
+	return (i);
 }
 
 /**
@@ -73,4 +58,17 @@ char *_cantostr(char *dest, char *src)
 	*dest = *src;
 	return (ret);
 }
-
+/**
+ * begain_with - checks if needle starts with haystack
+ * @haystack: string to search
+ * @needle: the substring to find
+ *
+ * Return: address of next char of haystack or NULL
+ */
+char *begain_with(const char *haystack, const char *needle)
+{
+	while (*needle)
+		if (*needle++ != *haystack++)
+			return (NULL);
+	return ((char *)haystack);
+}

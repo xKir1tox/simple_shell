@@ -1,18 +1,6 @@
 #include "shell.h"
 
 /**
- * _the_env - prints the current environment
- * @info: Structure containing potential arguments. Used to maintain
- *          constant function prototype.
- * Return: Always 0
- */
-int _the_env(info_t *info)
-{
-	string_list_printer(info->env);
-	return (0);
-}
-
-/**
  * env_fetcher - gets the value of an environ variable
  * @info: Structure containing potential arguments. Used to maintain
  * @name: env var name
@@ -32,6 +20,17 @@ char *env_fetcher(info_t *info, const char *name)
 		node = node->next;
 	}
 	return (NULL);
+}
+/**
+ * _the_env - prints the current environment
+ * @info: Structure containing potential arguments. Used to maintain
+ *          constant function prototype.
+ * Return: Always 0
+ */
+int _the_env(info_t *info)
+{
+	string_list_printer(info->env);
+	return (0);
 }
 
 /**

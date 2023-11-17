@@ -1,24 +1,6 @@
 #include "shell.h"
 
 /**
- * lists_length - determines length of linked list
- * @h: pointer to first node
- *
- * Return: size of list
- */
-size_t lists_length(const list_t *h)
-{
-	size_t i = 0;
-
-	while (h)
-	{
-		h = h->next;
-		i++;
-	}
-	return (i);
-}
-
-/**
  * lists_are_strings - returns an array of strings of the list->str
  * @head: pointer to first node
  *
@@ -54,6 +36,23 @@ char **lists_are_strings(list_t *head)
 	return (strs);
 }
 
+/**
+ * lists_length - determines length of linked list
+ * @h: pointer to first node
+ *
+ * Return: size of list
+ */
+size_t lists_length(const list_t *h)
+{
+	size_t i = 0;
+
+	while (h)
+	{
+		h = h->next;
+		i++;
+	}
+	return (i);
+}
 
 /**
  * lists_printer - prints all elements of a list_t linked list
@@ -79,28 +78,6 @@ size_t lists_printer(const list_t *h)
 }
 
 /**
- * what_noods_start - returns node whose string starts with prefix
- * @node: pointer to list head
- * @prefix: string to match
- * @c: the next character after prefix to match
- *
- * Return: match node or null
- */
-list_t *what_noods_start(list_t *node, char *prefix, char c)
-{
-	char *p = NULL;
-
-	while (node)
-	{
-		p = begain_with(node->str, prefix);
-		if (p && ((c == -1) || (*p == c)))
-			return (node);
-		node = node->next;
-	}
-	return (NULL);
-}
-
-/**
  * index_noods_fetcher - gets the index of a node
  * @head: pointer to list head
  * @node: pointer to the node
@@ -121,3 +98,24 @@ ssize_t index_noods_fetcher(list_t *head, list_t *node)
 	return (-1);
 }
 
+/**
+ * what_noods_start - returns node whose string starts with prefix
+ * @node: pointer to list head
+ * @prefix: string to match
+ * @c: the next character after prefix to match
+ *
+ * Return: match node or null
+ */
+list_t *what_noods_start(list_t *node, char *prefix, char c)
+{
+	char *p = NULL;
+
+	while (node)
+	{
+		p = begain_with(node->str, prefix);
+		if (p && ((c == -1) || (*p == c)))
+			return (node);
+		node = node->next;
+	}
+	return (NULL);
+}

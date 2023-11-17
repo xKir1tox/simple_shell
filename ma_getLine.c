@@ -1,50 +1,6 @@
 #include "shell.h"
 
 /**
- * input_buf - buffers chained commands
- * @info: parameter struct
- * @buf: address of buffer
- * @len: address of len var
- *
- * Return: bytes read
- */
-ssize_t input_buf(info_t *info, char **buf, size_t *len)
-{
-	ssize_t r = 0;
-	size_t len_p = 0;
-
-	if (!*len) /* if nothing left in the buffer, fill it */
-	{
-		/*bfree((void **)info->cmd_buf);*/
-		free(*buf);
-		*buf = NULL;
-		signal(SIGINT, sigin_dealer);
-#if USE_line_fetcher
-		r = getline(buf, &len_p, stdin);
-#else
-		r = _line_fetcher(info, buf, &len_p);
-#endif
-		if (r > 0)
-		{
-			if ((*buf)[r - 1] == '\n')
-			{
-				(*buf)[r - 1] = '\0'; /* remove trailing newline */
-				r--;
-			}
-			info->linecount_flag = 1;
-			del_comm(*buf);
-			history_list_builder(info, *buf, info->histcount++);
-			/* if (_chars_str(*buf, ';')) is this a command chain? */
-			{
-				*len = r;
-				info->cmd_buf = buf;
-			}
-		}
-	}
-	return (r);
-}
-
-/**
  * input_fetcher - gets a line minus the newline
  * @info: parameter struct
  *
@@ -90,6 +46,50 @@ ssize_t input_fetcher(info_t *info)
 }
 
 /**
+ * input_buf - buffers chained commands
+ * @info: parameter struct
+ * @buf: address of buffer
+ * @len: address of len var
+ *
+ * Return: bytes read
+ */
+ssize_t input_buf(info_t *info, char **buf, size_t *len)
+{
+	ssize_t r = 0;
+	size_t len_p = 0;
+
+	if (!*len) /* if nothing left in the buffer, fill it */
+	{
+		/*bfree((void **)info->cmd_buf);*/
+		free(*buf);
+		*buf = NULL;
+		signal(SIGINT, sigin_dealer);
+#if USE_line_fetcher
+		r = getline(buf, &len_p, stdin);
+#else
+		r = _line_fetcher(info, buf, &len_p);
+#endif
+		if (r > 0)
+		{
+			if ((*buf)[r - 1] == '\n')
+			{
+				(*buf)[r - 1] = '\0'; /* remove trailing newline */
+				r--;
+			}
+			info->linecount_flag = 1;
+			del_comm(*buf);
+			history_list_builder(info, *buf, info->histcount++);
+			/* if (_chars_str(*buf, ';')) is this a command chain? */
+			{
+				*len = r;
+				info->cmd_buf = buf;
+			}
+		}
+	}
+	return (r);
+}
+
+/**
  * read_buf - reads a buffer
  * @info: parameter struct
  * @buf: buffer
@@ -107,6 +107,19 @@ ssize_t read_buf(info_t *info, char *buf, size_t *i)
 	if (r >= 0)
 		*i = r;
 	return (r);
+}
+
+/**
+ * sigin_dealer - blocks ctrl-C
+ * @sig_num: the signal number
+ *
+ * Return: void
+ */
+void sigin_dealer(__attribute__((unused))int sig_num)
+{
+	_puts("\n");
+	_puts("$ ");
+	_putchar(BUF_FLUSH);
 }
 
 /**
@@ -155,17 +168,3 @@ int _line_fetcher(info_t *info, char **ptr, size_t *length)
 	*ptr = p;
 	return (s);
 }
-
-/**
- * sigin_dealer - blocks ctrl-C
- * @sig_num: the signal number
- *
- * Return: void
- */
-void sigin_dealer(__attribute__((unused))int sig_num)
-{
-	_puts("\n");
-	_puts("$ ");
-	_putchar(BUF_FLUSH);
-}
-
