@@ -232,5 +232,12 @@ int rep_my_alias(info_t *);
 int rep_my_vars(info_t *);
 int rep_my_string(char **, char *);
 
+/* my prototype for ma_getLine.c */
+ssize_t input_fetcher(info_t *info);
+ssize_t input_buf(info_t *info, char **buf, size_t *len);
+ssize_t read_buf(info_t *info, char *buf, size_t *i);
+void sigin_dealer(__attribute__((unused))int sig_num);
+int _line_fetcher(info_t *info, char **ptr, size_t *length);
+
 #endif
 
