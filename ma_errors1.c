@@ -1,6 +1,6 @@
 #include "shell.h"
 /**
- * _show_error - prints an error message
+ * _show_error - desplays error message
  * @info: the parameter & return info struct
  * @estr: string containing specified error type
  * Return: 0 if no numbers in string, converted number otherwise
@@ -18,8 +18,8 @@ void _show_error(info_t *info, char *estr)
 }
 
 /**
- * _erratoi - converts a string to an integer
- * @s: the string to be converted
+ * _erratoi - change str to an integer
+ * @s: refear to the string to be converted
  * Return: 0 if no numbers in string, converted number otherwise
  *       -1 on error
  */
@@ -46,8 +46,8 @@ int _erratoi(char *s)
 }
 
 /**
- * _show_d - function prints a decimal (integer) number (base 10)
- * @input: the input
+ * _show_d - function desplay a integer (decimal) number (base 10)
+ * @input: the input takes the input
  * @fd: the filedescriptor to write to
  *
  * Return: number of characters printed
@@ -85,10 +85,10 @@ int _show_d(int input, int fd)
 }
 
 /**
- * _ex_num - converter function, a clone of itoa
- * @num: number
- * @base: base
- * @flags: argument flags
+ * _ex_num - change the func and redesplay itoa
+ * @num: for number 
+ * @base: the base it will work with
+ * @flags: argument flags and inturaptor
  *
  * Return: string
  */
@@ -121,8 +121,8 @@ char *_ex_num(long int num, int base, int flags)
 }
 
 /**
- * del_comm - function replaces first instance of '#' with '\0'
- * @buf: address of the string to modify
+ * del_comm - use del_comm to func the first instance of '#' with '\0'
+ * @buf: addres& of the string to modify
  *
  * Return: Always 0;
  */
